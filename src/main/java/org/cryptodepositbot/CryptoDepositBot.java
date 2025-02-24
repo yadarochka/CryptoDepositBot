@@ -10,7 +10,7 @@ public class CryptoDepositBot extends TelegramLongPollingBot {
     private static CryptoDepositBot botInstance;
 
     public CryptoDepositBot() {
-        super("7704986422:AAHzJs_tbrNleujp0E5bhUQW1gWVcLcN9AM");
+        super(Config.get("BOT_TOKEN"));
         botInstance = this;
     }
 
