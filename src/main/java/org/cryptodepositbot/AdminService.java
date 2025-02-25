@@ -19,10 +19,10 @@ public class AdminService {
                 INNER JOIN roles on roles.id = users.role_id;
                 """;
 
-        try(Connection connection = connect(); PreparedStatement psms = connection.prepareStatement(sql)){
+        try (Connection connection = connect(); PreparedStatement psms = connection.prepareStatement(sql)) {
             ResultSet rs = psms.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 long telegramId = Long.parseLong(rs.getString("telegram_id"));
                 String userName = rs.getString("userName");
                 LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
@@ -33,15 +33,17 @@ public class AdminService {
 
             return userList;
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Ошибка показа всех пользователей: " + e.getMessage());
         }
+
+        System.out.println("userList = " + userList);
 
         return userList;
     }
 
     public static boolean isAdmin(long telegramId) {
+
         String sql = """
                 SELECT role_id
                 FROM users
@@ -53,7 +55,7 @@ public class AdminService {
 
             ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()){
+            if (rs.next()) {
                 return rs.getInt("role_id") == 2;
             }
 
