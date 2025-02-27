@@ -26,7 +26,7 @@ public class Menu {
         }
     }
 
-    public static void createInlineKeyboard(String chatId, Menu.Keyboard menuItem){
+    public static SendMessage createInlineKeyboard(String chatId, Keyboard menuItem){
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(menuItem.name);
@@ -36,21 +36,33 @@ public class Menu {
 
         message.setReplyMarkup(inlineKeyboardMarkup);
 
-        CryptoDepositBot.send(message);
+        return message;
     }
 
-    public static void editInlineKeyboard(Message message, Menu.Keyboard menuItem) {
-        EditMessageText editMessageReplyMarkup = new EditMessageText();
-
-        editMessageReplyMarkup.setText(menuItem.name);
-        editMessageReplyMarkup.setMessageId(message.getMessageId());
-        editMessageReplyMarkup.setChatId(message.getChatId());
+    public static SendMessage createInlineKeyboard(Keyboard menuItem){
+        SendMessage message = new SendMessage();
+        message.setText(menuItem.name);
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(menuItem.keyboard);
 
-        editMessageReplyMarkup.setReplyMarkup(inlineKeyboardMarkup);
+        message.setReplyMarkup(inlineKeyboardMarkup);
 
-        CryptoDepositBot.send(editMessageReplyMarkup);
+        return message;
+    }
+
+    public static EditMessageText editInlineKeyboard(Message message, Menu.Keyboard menuItem) {
+        EditMessageText editMessageText = new EditMessageText();
+
+        editMessageText.setText(menuItem.name);
+        editMessageText.setMessageId(message.getMessageId());
+        editMessageText.setChatId(message.getChatId());
+
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        inlineKeyboardMarkup.setKeyboard(menuItem.keyboard);
+
+        editMessageText.setReplyMarkup(inlineKeyboardMarkup);
+
+        return editMessageText;
     }
 }

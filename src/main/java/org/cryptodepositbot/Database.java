@@ -33,7 +33,7 @@ public class Database {
         String createUsersTable = """
                 CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    telegram_id TEXT UNIQUE NOT NULL,
+                    user_id TEXT UNIQUE NOT NULL, -- telegram_id и chat_id в одном (они равны в боте)
                     role_id INTEGER NOT NULL DEFAULT 1,
                     username TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -50,6 +50,7 @@ public class Database {
                     accrued_interest REAL DEFAULT 0,
                     start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Дата внесения депозита
                     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Последнее обновление процентов
+                    in_work INTEGER DEFAULT 0, -- 0 НЕ ПОДТВЕРЖДЕН (ПРОЦЕНТ НЕ НАЧИСЛЯЕТСЯ), 1 ПОДТВЕРЖДЕН (НАЧИСЛЯЕТСЯ)
                     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
                 );
                 """;
@@ -71,7 +72,7 @@ public class Database {
             System.out.println("✅ Роли добавлены!");
 
         } catch (SQLException e) {
-            System.out.println("Ошибка при проверке/создании таблиц: " + e.getMessage());
+            System.out.println("❌ Ошибка при проверке/создании таблиц: " + e.getMessage());
         }
     }
 }

@@ -8,33 +8,33 @@ import java.sql.SQLException;
 import static org.cryptodepositbot.Database.connect;
 
 public class UserService {
-    public static void createUser(long telegramId, String username) {
+    public static void createUser(String userId, String username) {
         String sql = """
-                INSERT INTO users (telegram_id, username)
+                INSERT INTO users (user_id, username)
                 VALUES (?, ?);
                 """;
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             System.out.println();
-            pstmt.setString(1, String.valueOf(telegramId));
+            pstmt.setString(1, userId);
             pstmt.setString(2, username);
             pstmt.executeUpdate();
             System.out.println("✅ Пользователь добавлен: " + username);
         } catch (SQLException e) {
-            System.out.println("Ошибка добавления пользователя: " + e.getMessage());
+            System.out.println("❌ Ошибка добавления пользователя: " + e.getMessage());
         }
     }
-    public static boolean isRegistered(long telegramId) {
+    public static boolean isRegistered(String userId) {
         String sql = """
-                SELECT telegram_id, username
+                SELECT user_id, username
                 FROM users
-                WHERE telegram_id = ?
+                WHERE user_id = ?
                 """;
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setLong(1, telegramId);
+            pstmt.setString(1, userId);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -43,7 +43,7 @@ public class UserService {
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println("Ошибка добавления пользователя: " + e.getMessage());
+            System.out.println("❌ Ошибка проверки пользователя: " + e.getMessage());
         }
 
         return false;

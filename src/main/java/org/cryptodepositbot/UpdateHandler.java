@@ -34,12 +34,11 @@ public class UpdateHandler {
     }
 
     private static UserModel UserModelInit(Message message) {
-        Long telegramId = message.getFrom().getId();
         String username = message.getFrom().getUserName();
         String firstName = message.getFrom().getFirstName();
-        String chatId = message.getChatId().toString();
+        String userId = message.getChatId().toString();
 
-        return new UserModel(telegramId, username, chatId, firstName);
+        return new UserModel(userId, username, firstName);
     }
 
 }

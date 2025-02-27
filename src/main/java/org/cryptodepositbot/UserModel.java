@@ -4,24 +4,22 @@ import java.time.LocalDateTime;
 
 public class UserModel {
 
-    private final long telegramId;
+    private final String userId;
     private final String username;
     private String firstName;
-    private String chatId;
     private LocalDateTime createdAt;
     private String role;
 
-    public UserModel(long telegramId, String username, LocalDateTime createdAt, String role){
-        this.telegramId = telegramId;
+    public UserModel(String userId, String username, LocalDateTime createdAt, String role){
+        this.userId = userId;
         this.username = username;
         this.createdAt = createdAt;
         this.role = role;
     }
 
-    public UserModel(long telegramId, String username, String chatId, String firstName) {
-        this.telegramId = telegramId;
+    public UserModel(String userId, String username, String firstName) {
+        this.userId = userId;
         this.username = username;
-        this.chatId = chatId;
         this.firstName = firstName;
     }
 
@@ -33,14 +31,9 @@ public class UserModel {
         return firstName;
     }
 
-    public String getChatId() {
-        return chatId;
+    public String getUserId() {
+        return userId;
     }
-
-    public long getTelegramId() {
-        return telegramId;
-    }
-
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
