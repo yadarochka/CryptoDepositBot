@@ -20,18 +20,19 @@ public class CommandController {
 
 
     private static void start(UserModel userModel) {
-        if (UserService.isRegistered(userModel.getTelegramId())) {
+        if (!UserService.isRegistered(userModel.getUserId())) {
             String welcomeMessage = "Привет, " + userModel.getFirstName() + ", добро пожаловать! \uD83E\uDD19";
-            UserService.createUser(userModel.getTelegramId(), userModel.getUsername());
-            CryptoDepositBot.send(new SendMessage(userModel.getChatId(), welcomeMessage));
+            UserService.createUser(userModel.getUserId(), userModel.getUsername());
+            CryptoDepositBot.send(new SendMessage(userModel.getUserId(), welcomeMessage));
+            AdminController.sendMessageToAllAdmins("Новый пользователь @" + userModel.getUsername() + " присоединился");
         } else {
             String welcomeMessage = "Привет, " + userModel.getFirstName() + ", добро пожаловать снова! \uD83D\uDE09";
-            CryptoDepositBot.send(new SendMessage(userModel.getChatId(), welcomeMessage));
+            CryptoDepositBot.send(new SendMessage(userModel.getUserId(), welcomeMessage));
         }
     }
 
     private static void showMenu(UserModel userModel) {
-        boolean isAdmin = AdminService.isAdmin(userModel.getTelegramId());
-        Menu.createInlineKeyboard(userModel.getChatId(), MenuList.showMenu(isAdmin));
+        boolean isAdmin = AdminService.isAdmin(userModel.getUserId());
+        CryptoDepositBot.send(Menu.createInlineKeyboard(userModel.getUserId(), MenuList.showMenu(isAdmin)));
     }
 }

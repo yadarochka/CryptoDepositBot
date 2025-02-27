@@ -1,19 +1,21 @@
 package org.cryptodepositbot;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AdminController {
-    public static void showAllUsers(Long telegramId, String chatId) {
+    public static void showAllUsers(String userId) {
         List<UserModel> userList = null;
-        if (AdminService.isAdmin(telegramId)){
+        if (AdminService.isAdmin(userId)){
             userList = AdminService.showAllUsers();
         }
 
         if (userList == null){
             String message = "Не удалось получить список пользователей";
-            CryptoDepositBot.send(new SendMessage(chatId, message));
+            CryptoDepositBot.send(new SendMessage(userId, message));
             return;
         }
 
@@ -33,11 +35,20 @@ public class AdminController {
         }
         messageBuilder.append("\n```");
 
-        SendMessage message = new SendMessage(chatId, messageBuilder.toString());
+        SendMessage message = new SendMessage(userId, messageBuilder.toString());
 
         message.setParseMode("MarkdownV2");
 
         CryptoDepositBot.send(message);
 
+    }
+
+    public static void sendMessageToAllAdmins(Object message){
+        List<String> adminsChatIds = AdminService.getAdminsChatIds();
+        for (String chatId: adminsChatIds){
+            SendMessage notify = (SendMessage) message;
+            notify.setChatId(chatId);
+            CryptoDepositBot.send(notify);
+        }
     }
 }
