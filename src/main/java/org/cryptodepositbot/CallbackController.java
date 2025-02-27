@@ -26,7 +26,7 @@ public class CallbackController {
                 CryptoDepositBot.send(Menu.editInlineKeyboard(message, MenuList.addDeposit()));
                 break;
             case "add_deposit":
-                AdminController.sendMessageToAllAdmins(Menu.createInlineKeyboard(MenuList.notifyNewDeposit(message.getChat().getUserName().toString())));
+                AdminController.sendMessageToAllAdmins(Menu.createInlineKeyboard(MenuList.notifyNewDeposit(message.getChat().getUserName())));
                 CryptoDepositBot.send(new SendMessage(message.getChat().getId().toString(), "Депозит будет обрабатываться до 48 часов. Ожидайте..."));
                 CryptoDepositBot.send(new DeleteMessage(message.getChatId().toString(),message.getMessageId()));
 

@@ -1,10 +1,8 @@
 package org.cryptodepositbot;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
-import java.util.Objects;
 
 public class AdminController {
     public static void showAllUsers(String userId) {
